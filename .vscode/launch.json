@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AuthSvcApplication<svc-auth>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.logesta.svcauth.AuthSvcApplication",
+            "projectName": "svc-auth",
+            "args": ""
+        }
+    ]
+}

@@ -8,8 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.logesta.svcauth.security.SecurityConstants;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,11 +38,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		String token = request.getHeader(SecurityConstants.HEADER_AUTHORIZACION_KEY);
 		if (token != null) {
 			// Se procesa el token y se recupera el usuario.
-			String user = Jwts.parser()
-						.setSigningKey(SecurityConstants.SUPER_SECRET_KEY)
-						.parseClaimsJws(token.replace(SecurityConstants.TOKEN_BEARER_PREFIX, ""))
-						.getBody()
-						.getSubject();
+			String user = Jwts.parser().setSigningKey(SecurityConstants.SUPER_SECRET_KEY)
+					.parseClaimsJws(token.replace(SecurityConstants.TOKEN_BEARER_PREFIX, "")).getBody().getSubject();
 
 			if (user != null) {
 				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());

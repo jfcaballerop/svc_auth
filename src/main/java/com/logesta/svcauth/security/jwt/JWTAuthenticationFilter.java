@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.logesta.svcauth.model.Usuario;
-import com.logesta.svcauth.security.SecurityConstants;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +28,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
+
+		// Sin esta parte la url que atendería sería la de /login
+		setFilterProcessesUrl(SecurityConstants.SIGNIN_URL);
+
 	}
 
 	@Override
@@ -48,22 +51,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 
-        String token = Jwts.builder()
-            .setIssuedAt(new Date())
-                .setIssuer(SecurityConstants.ISSUER_INFO)
-				.setSubject(((User)auth.getPrincipal()).getUsername())
+		String token = Jwts.builder().setIssuedAt(new Date()).setIssuer(SecurityConstants.ISSUER_INFO)
+				.setSubject(((User) auth.getPrincipal()).getUsername()).claim("roles", "user") // TODO: En esta parte
+																								// debemos obtener los
+																								// permisos y aplicarlos
 				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SUPER_SECRET_KEY)
-                .compact();
-                
-		response.addHeader(
-            SecurityConstants.HEADER_AUTHORIZACION_KEY, 
-			SecurityConstants.TOKEN_BEARER_PREFIX + " " + token);
-			
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(
-					"{\"" + SecurityConstants.HEADER_AUTHORIZACION_KEY + "\":\"" + SecurityConstants.TOKEN_BEARER_PREFIX+token + "\"}"
-			);	
+
+				.signWith(SignatureAlgorithm.HS512, SecurityConstants.SUPER_SECRET_KEY).compact();
+
+		response.addHeader(SecurityConstants.HEADER_AUTHORIZACION_KEY,
+				SecurityConstants.TOKEN_BEARER_PREFIX + " " + token);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write("{\"" + SecurityConstants.TOKEN_PREFIX + "\":\"" + token + "\"}");
 	}
 }

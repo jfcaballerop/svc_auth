@@ -1,16 +1,11 @@
-package com.logesta.svcauth.security;
-
-import com.logesta.svcauth.security.jwt.JWTAuthenticationFilter;
-import com.logesta.svcauth.security.jwt.JWTAuthorizationFilter;
+package com.logesta.svcauth.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,14 +14,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 /**
  * WebSecurity
  */
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected UserDetailsService userDetailsService;
@@ -35,38 +28,26 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        	/*
-			 * 1. Se desactiva el uso de cookies
-			 * 2. Se activa la configuración CORS con los valores por defecto
-			 * 3. Se desactiva el filtro CSRF
-			 * 4. Se indica que el login/signin no requiere autenticación
-			 * 5. Se indica que el resto de URLs esten securizadas
-			 */
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers(HttpMethod.POST, "auth/login2").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
 
-        http.cors().and().csrf().disable();
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers("/h2-console/**").permitAll().anyRequest()
+                .authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.headers().frameOptions().disable();
 
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Se define la clase que recupera los usuarios y el algoritmo para procesar las passwords
-        // Se podría usar un método custom
-        
+        // Se define la clase que recupera los usuarios y el algoritmo para procesar las
+        // passwords
+        // Se podría usar un método custom en vez de bCryptPasswordEncoder()
+
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-        //TODO: Añadir usuarios a la BBDD con bcrypt()
     }
 
     @Bean
@@ -75,5 +56,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-    
+
 }

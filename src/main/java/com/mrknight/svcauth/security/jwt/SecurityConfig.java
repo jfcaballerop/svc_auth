@@ -1,4 +1,4 @@
-package com.logesta.svcauth.security.jwt;
+package com.mrknight.svcauth.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

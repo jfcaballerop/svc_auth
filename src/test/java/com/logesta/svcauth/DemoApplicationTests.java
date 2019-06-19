@@ -1,4 +1,4 @@
-package com.logesta.svcauth;
+package com.mrknight.svcauth;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

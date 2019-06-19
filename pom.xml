@@ -8,7 +8,7 @@
     <version>2.1.5.RELEASE</version>
     <relativePath/>
   </parent>
-  <groupId>com.logesta</groupId>
+  <groupId>com.mrknight</groupId>
   <artifactId>svc-auth</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>AuthSvc</name>

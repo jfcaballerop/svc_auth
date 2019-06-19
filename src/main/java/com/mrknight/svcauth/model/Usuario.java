@@ -1,4 +1,4 @@
-package com.logesta.svcauth.model;
+package com.mrknight.svcauth.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

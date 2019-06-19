@@ -1,4 +1,4 @@
-package com.logesta.svcauth.security.jwt;
+package com.mrknight.svcauth.security.jwt;
 
 public class SecurityConstants {
 
@@ -12,8 +12,8 @@ public class SecurityConstants {
 
     // JWT
 
-    public static final String ISSUER_INFO = "https://www.logesta.com/";
-    public static final String SUPER_SECRET_KEY = "Logesta_n2r5u8x/A%D*G-KaPdSgVkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!z%C*F-J@NcRf";
+    public static final String ISSUER_INFO = "https://www.mrknight.com/";
+    public static final String SUPER_SECRET_KEY = "Mrknight_n2r5u8x/A%D*G-KaPdSgVkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!z%C*F-J@NcRf";
     public static final long TOKEN_EXPIRATION_TIME = 864_000_000; // 10 day
 
     /** Roles */

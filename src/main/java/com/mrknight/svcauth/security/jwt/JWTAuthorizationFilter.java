@@ -1,4 +1,4 @@
-package com.logesta.svcauth.security.jwt;
+package com.mrknight.svcauth.security.jwt;
 
 import java.io.IOException;
 import java.util.ArrayList;

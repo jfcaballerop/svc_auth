@@ -1,7 +1,7 @@
-package com.logesta.svcauth;
+package com.mrknight.svcauth;
 
-import com.logesta.svcauth.model.Usuario;
-import com.logesta.svcauth.repository.UsuarioRespository;
+import com.mrknight.svcauth.model.Usuario;
+import com.mrknight.svcauth.repository.UsuarioRespository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +24,7 @@ public class AuthSvcApplication {
 	public CommandLineRunner initData(UsuarioRespository repo) {
 		return args -> {
 
-			Usuario usuario = new Usuario("test1",bCryptPasswordEncoder.encode("test"));
+			Usuario usuario = new Usuario("test1", bCryptPasswordEncoder.encode("test"));
 			repo.save(usuario);
 			Usuario usuario2 = new Usuario("test2", bCryptPasswordEncoder.encode("test"));
 			repo.save(usuario2);

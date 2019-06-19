@@ -1,9 +1,9 @@
-package com.logesta.svcauth.security;
+package com.mrknight.svcauth.security;
 
 import static java.util.Collections.emptyList;
 
-import com.logesta.svcauth.model.Usuario;
-import com.logesta.svcauth.repository.UsuarioRespository;
+import com.mrknight.svcauth.model.Usuario;
+import com.mrknight.svcauth.repository.UsuarioRespository;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsuarioDetailsServiceImpl implements UserDetailsService {
 
-    private UsuarioRespository usuarioRepository;
+	private UsuarioRespository usuarioRepository;
 
 	public UsuarioDetailsServiceImpl(UsuarioRespository usuarioRepository) {
 		this.usuarioRepository = usuarioRepository;

@@ -1,6 +1,6 @@
-package com.logesta.svcauth.repository;
+package com.mrknight.svcauth.repository;
 
-import com.logesta.svcauth.model.Usuario;
+import com.mrknight.svcauth.model.Usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

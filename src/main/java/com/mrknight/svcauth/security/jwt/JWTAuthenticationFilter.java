@@ -1,4 +1,4 @@
-package com.logesta.svcauth.security.jwt;
+package com.mrknight.svcauth.security.jwt;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.logesta.svcauth.model.Usuario;
+import com.mrknight.svcauth.model.Usuario;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

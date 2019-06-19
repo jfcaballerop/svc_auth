@@ -28,5 +28,5 @@ blog/bin/
 hs_err_pid*
 
 *.db
-*.attach*
-**/.vscode
+**/.attach*
+.vscode/*

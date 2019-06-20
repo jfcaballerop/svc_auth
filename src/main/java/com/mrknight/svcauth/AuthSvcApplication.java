@@ -24,10 +24,12 @@ public class AuthSvcApplication {
 	public CommandLineRunner initData(UsuarioRespository repo) {
 		return args -> {
 
-			Usuario usuario = new Usuario("test1", bCryptPasswordEncoder.encode("test"));
-			repo.save(usuario);
-			Usuario usuario2 = new Usuario("test2", bCryptPasswordEncoder.encode("test"));
+			Usuario usuario1 = new Usuario("usuario1", bCryptPasswordEncoder.encode("pass1"));
+			repo.save(usuario1);
+			Usuario usuario2 = new Usuario("usuario2", bCryptPasswordEncoder.encode("pass2"));
 			repo.save(usuario2);
+			Usuario usuario3 = new Usuario("usuario3", bCryptPasswordEncoder.encode("pass3"));
+			repo.save(usuario3);
 
 		};
 	}

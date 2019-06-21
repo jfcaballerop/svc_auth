@@ -1,7 +1,12 @@
 package com.mrknight.svcauth;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.mrknight.svcauth.model.Role;
 import com.mrknight.svcauth.model.Usuario;
-import com.mrknight.svcauth.repository.UsuarioRespository;
+import com.mrknight.svcauth.repository.RoleRepository;
+import com.mrknight.svcauth.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,15 +26,30 @@ public class AuthSvcApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(UsuarioRespository repo) {
+	public CommandLineRunner initData(UsuarioRepository userRepo, RoleRepository roleRepo) {
 		return args -> {
+			Role role1 = new Role("ROLE_ADMIN", "Admin role");
+			roleRepo.save(role1);
+			Role role2 = new Role("ROLE_USER", "User role");
+			roleRepo.save(role2);
+			Role role3 = new Role("ROLE_SVC", "Service role");
+			roleRepo.save(role3);
 
-			Usuario usuario1 = new Usuario("usuario1", bCryptPasswordEncoder.encode("pass1"));
-			repo.save(usuario1);
-			Usuario usuario2 = new Usuario("usuario2", bCryptPasswordEncoder.encode("pass2"));
-			repo.save(usuario2);
-			Usuario usuario3 = new Usuario("usuario3", bCryptPasswordEncoder.encode("pass3"));
-			repo.save(usuario3);
+			Set<Role> roles = new HashSet<>();
+
+			roles.add(role2);
+			Usuario usuario1 = new Usuario("usuario1", bCryptPasswordEncoder.encode("pass1"), roles); // Solo user
+			userRepo.save(usuario1);
+
+			roles.add(role1);
+			Usuario usuario2 = new Usuario("usuario2", bCryptPasswordEncoder.encode("pass2"),roles); // User & Admin
+			userRepo.save(usuario2);
+
+			roles.clear();
+			roles.add(role3);
+			Usuario usuario3 = new Usuario("service", bCryptPasswordEncoder.encode("pass3"),roles);
+			userRepo.save(usuario3);
+
 
 		};
 	}

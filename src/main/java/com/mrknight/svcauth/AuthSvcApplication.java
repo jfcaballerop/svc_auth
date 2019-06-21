@@ -38,16 +38,16 @@ public class AuthSvcApplication {
 			Set<Role> roles = new HashSet<>();
 
 			roles.add(role2);
-			Usuario usuario1 = new Usuario("usuario1", bCryptPasswordEncoder.encode("pass1"), roles); // Solo user
+			Usuario usuario1 = new Usuario("usuario", bCryptPasswordEncoder.encode("usuario"), roles); // Solo user
 			userRepo.save(usuario1);
 
 			roles.add(role1);
-			Usuario usuario2 = new Usuario("usuario2", bCryptPasswordEncoder.encode("pass2"),roles); // User & Admin
+			Usuario usuario2 = new Usuario("admin", bCryptPasswordEncoder.encode("admin"),roles); // User & Admin
 			userRepo.save(usuario2);
 
 			roles.clear();
 			roles.add(role3);
-			Usuario usuario3 = new Usuario("service", bCryptPasswordEncoder.encode("pass3"),roles);
+			Usuario usuario3 = new Usuario("service", bCryptPasswordEncoder.encode("service"),roles);
 			userRepo.save(usuario3);
 
 

@@ -1,11 +1,8 @@
 package com.mrknight.svcauth.security;
 
-import static java.util.Collections.emptyList;
-
 import com.mrknight.svcauth.model.Usuario;
 import com.mrknight.svcauth.repository.UsuarioRepository;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +23,6 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
 		if (usuario == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		return new User(usuario.getUsername(), usuario.getPassword(), emptyList());
-	}
+		return UserDetailsMapper.build(usuario);
+		}
 }

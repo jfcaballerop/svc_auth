@@ -9,6 +9,7 @@ public class SecurityConstants {
     public static final String HEADER_AUTHORIZACION_KEY = "Authorization";
     public static final String TOKEN_BEARER_PREFIX = "Bearer ";
     public static final String TOKEN_PREFIX = "token";
+    public static final String AUTHORITIES_KEY = "CLAIM_TOKEN";
 
     // JWT
 

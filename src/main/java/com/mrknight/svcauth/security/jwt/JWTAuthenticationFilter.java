@@ -3,6 +3,7 @@ package com.mrknight.svcauth.security.jwt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -51,13 +53,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 
-		String token = Jwts.builder().setIssuedAt(new Date()).setIssuer(SecurityConstants.ISSUER_INFO)
-				.setSubject(((User) auth.getPrincipal()).getUsername()).claim("roles", "user") // TODO: En esta parte
-																								// debemos obtener los
-																								// permisos y aplicarlos
-				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME))
+		final String authorities = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.joining(","));
 
-				.signWith(SignatureAlgorithm.HS512, SecurityConstants.SUPER_SECRET_KEY).compact();
+		String token = Jwts.builder()
+		.setIssuedAt(new Date())
+		.setIssuer(SecurityConstants.ISSUER_INFO)
+		.setSubject(((User) auth.getPrincipal()).getUsername())
+				.claim(SecurityConstants.AUTHORITIES_KEY, authorities)
+		.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME))
+		.signWith(SignatureAlgorithm.HS512, SecurityConstants.SUPER_SECRET_KEY)
+		.compact();
 
 		response.addHeader(SecurityConstants.HEADER_AUTHORIZACION_KEY,
 				SecurityConstants.TOKEN_BEARER_PREFIX + " " + token);
